@@ -1,7 +1,6 @@
 import app from "./app.js";
 import db from "./db.js";
-/* import swaggerUi from "swagger-ui-express";
-import swaggerJsdoc from "swagger-jsdoc"; */
+
 const port = process.env.SERVER_PORT;
 console.log("funciona bien")
 app.listen(port, () => {
@@ -11,3 +10,13 @@ app.listen(port, () => {
 app.get("/healthcheck", (req, res) => {
     res.send({ message: "its alive" }).status(200);
 });
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    return res.status(statusCode).json({
+      success: false,
+      statusCode,
+      message,
+    });
+  });
