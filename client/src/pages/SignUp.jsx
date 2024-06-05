@@ -8,6 +8,7 @@ export default function SignUp() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -17,14 +18,13 @@ export default function SignUp() {
     setLoading(true);
     const res = await newUser(formData);
     console.log(res)
+
     if (!res.success) {
       setError(res.message);
       setLoading(false);
       return;
     }
     navigate('/sign-in');
-
-
   };
 
   return (
@@ -34,7 +34,7 @@ export default function SignUp() {
         <input type="text" name='username' placeholder='username' className='border p-3 rounded-lg' id='username' onChange={handleChange} />
         <input type="email" name='email' placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange} />
         <input type="password" name='password' placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange} />
-        <button disabled={loading} className='border bg-slate-700 text-white rounded-lg p-3 uppercase disabled:opacity-80 hover:opacity-95'>
+        <button disabled={loading} className='border bg-slate-700 text-white rounded-lg p-3 uppercase disabled:opacity-80 hover:opacity-95 '>
           {loading ? 'Loading...' : 'Sign Up'}
         </button>
       </form>
