@@ -1,5 +1,7 @@
 import userModel from "../models/user.model.js";
 import bcrypt from 'bcrypt';
+import { handleError } from "../utils/error.js";
+import jwt from 'jsonwebtoken';
 
 const authController = {};
 
@@ -18,7 +20,7 @@ authController.signup = async (req, res, next) => {
     return next(error);
   }
 
-  if(password.length <8){
+  if (password.length < 8) {
     const error = new Error("Password must be at least 8 characters long");
     error.statusCode = 400;
     return next(error)
@@ -36,5 +38,24 @@ authController.signup = async (req, res, next) => {
     next(error);
   }
 };
+
+authController.signIn = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const isExist = await userModel.findOne({ email: email });
+    if (!isExist) return next(handleError(401, "User not found"));
+
+    const validatePassword = bcrypt.compareSync(password, isExist.password);
+    if (!validatePassword) return next(handleError(401, "Invalid password"));
+
+    const token = jwt.sign({ id: isExist._id }, process.env.JWT_SECRET);
+    const { password: pass, ...rest } = isExist._doc;
+    res.cookie('access_token', token, { httpOnly: true }).status(200).json({
+      rest
+    });
+  } catch (error) {
+    next(error);
+  }
+}
 
 export default authController;

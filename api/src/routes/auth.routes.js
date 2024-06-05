@@ -4,5 +4,6 @@ import { Router } from 'express';
 const router = new Router();
 
 router.post('/signup', authController.signup);
+router.post('/signin', authController.signIn);
 
 export default router;
