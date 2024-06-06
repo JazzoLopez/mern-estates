@@ -29,7 +29,7 @@ export default function SignUp() {
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-center text-3xl font-semibold my-7'>Sign Un</h1>
+      <h1 className='text-center text-3xl font-semibold my-7'>Sign Up</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <input type="text" name='username' placeholder='username' className='border p-3 rounded-lg' id='username' onChange={handleChange} />
         <input type="email" name='email' placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange} />

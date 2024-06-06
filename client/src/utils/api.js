@@ -11,4 +11,15 @@ const newUser = async (user) => {
     return response.json();
 }
 
-export { newUser };
+const signIn = async (user) => {
+    const response = await fetch(`${url}/api/auth/signin`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+    });
+    return response.json();
+}
+
+export { newUser, signIn};
